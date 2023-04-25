@@ -14,6 +14,7 @@ const generateToken = async (req, res, next) => {
   const secret = process.env.MPESA_SECRET_KEY;
   console.log(secret);
   const consumer = process.env.MPESA_CONSUMER_KEY;
+  console.log(consumer);
   const auth = Buffer.from(`${consumer}:${secret}`).toString("base64");
 
   try {
@@ -51,6 +52,8 @@ app.post("/stk", generateToken, async (req, res) => {
   console.log(callbackurl);
   const phone = req.body.phone.substring(1);
   const amount = req.body.amount;
+  console.log(phone);
+  console.log(amount);
 
   const date = new Date();
 
@@ -63,7 +66,9 @@ app.post("/stk", generateToken, async (req, res) => {
     ("0" + date.getSeconds()).slice(-2);
 
   const shortcode = process.env.MPESA_SHORTCODE;
+  console.log(shortcode);
   const passkey = process.env.MPESA_PASSKEY;
+  console.log(passkey);
   const password = new Buffer.from(shortcode + passkey + timestamp).toString(
     "base64"
   );
@@ -82,7 +87,6 @@ app.post("/stk", generateToken, async (req, res) => {
         PhoneNumber: `254${phone}`,
         CallBackURL: `${callbackurl}`,
         AccountReference: `254${phone}`,
-        TransactionDesc: "Test",
       },
       {
         headers: {
