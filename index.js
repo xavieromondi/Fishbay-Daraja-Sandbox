@@ -69,7 +69,7 @@ app.post("/stk", generateToken, async (req, res) => {
   console.log(shortcode);
   const passkey = process.env.MPESA_PASSKEY;
   console.log(passkey);
-  const password = new Buffer.from(shortcode + passkey + timestamp).toString(
+  const password = Buffer.from(shortcode + passkey + timestamp).toString(
     "base64"
   );
 
@@ -85,7 +85,7 @@ app.post("/stk", generateToken, async (req, res) => {
         PartyA: `254${phone}`,
         PartyB: shortcode,
         PhoneNumber: `254${phone}`,
-        CallBackURL: `${callbackurl}`,
+        CallBackURL: `${callbackurl}/callnack`,
         AccountReference: `254${phone}`,
         TransactionDesc: "Test",
       },
@@ -104,10 +104,10 @@ app.post("/stk", generateToken, async (req, res) => {
   }
 });
 
-// Create a route to handle the callback
-//app.post("/callback", (req, res) => {
-//console.log("Received callback:", req.body);
-//res.send("Callback received");
-//});
+//Create a route to handle the callback
+app.post("/callback", (req, res) => {
+  console.log("Received callback:", req.body);
+  res.send("Callback received");
+});
 
 app.listen(process.env.PORT, () => console.log("Server running on port 8080"));
