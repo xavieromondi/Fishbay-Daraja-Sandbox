@@ -3,7 +3,7 @@ const cors = require("cors");
 const app = express();
 const axios = require("axios");
 const bodyParser = require("body-parser");
-const callbackurl = "https://fishbay-sandbox.onrender.com";
+const callbackurl = "fishbay-daraja-sandbox-production.up.railway.app";
 console.log(callbackurl);
 
 require("dotenv").config();
