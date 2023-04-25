@@ -3,7 +3,8 @@ const cors = require("cors");
 const app = express();
 const axios = require("axios");
 const bodyParser = require("body-parser");
-const callbackurl = process.env.CALLBACK_URL;
+const callbackurl = "https://fishbay-sandbox.onrender.com";
+console.log(callbackurl);
 
 require("dotenv").config();
 
@@ -13,6 +14,7 @@ app.use(cors());
 
 const generateToken = async (req, res, next) => {
   const secret = process.env.MPESA_SECRET_KEY;
+  console.log(secret);
   const consumer = process.env.MPESA_CONSUMER_KEY;
   const auth = Buffer.from(`${consumer}:${secret}`).toString("base64");
 
