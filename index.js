@@ -69,7 +69,7 @@ app.post("/stk", generateToken, async (req, res) => {
   console.log(shortcode);
   const passkey = process.env.MPESA_PASSKEY;
   console.log(passkey);
-  const password = Buffer.from(shortcode + passkey + timestamp).toString(
+  const password = new Buffer.from(shortcode + passkey + timestamp).toString(
     "base64"
   );
 
