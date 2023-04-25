@@ -80,7 +80,7 @@ app.post("/stk", generateToken, async (req, res) => {
         PartyA: `254${phone}`,
         PartyB: shortcode,
         PhoneNumber: `254${phone}`,
-        CallBackURL: `${callbackurl}/callback`,
+        CallBackURL: `${callbackurl}`,
         AccountReference: `254${phone}`,
         TransactionDesc: "Test",
       },
@@ -100,9 +100,9 @@ app.post("/stk", generateToken, async (req, res) => {
 });
 
 // Create a route to handle the callback
-app.post("/callback", (req, res) => {
-  console.log("Received callback:", req.body);
-  res.send("Callback received");
-});
+//app.post("/callback", (req, res) => {
+//console.log("Received callback:", req.body);
+//res.send("Callback received");
+//});
 
 app.listen(process.env.PORT, () => console.log("Server running on port 8080"));
