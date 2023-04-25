@@ -3,6 +3,8 @@ const cors = require("cors");
 const app = express();
 const axios = require("axios");
 const bodyParser = require("body-parser");
+const callbackurl = process.env.CALLBACK_URL;
+
 require("dotenv").config();
 
 app.use(express.json());
@@ -76,7 +78,7 @@ app.post("/stk", generateToken, async (req, res) => {
         PartyA: `254${phone}`,
         PartyB: shortcode,
         PhoneNumber: `254${phone}`,
-        CallBackURL: "https://fishbay-sandbox.onrender.com",
+        CallBackURL: `${callbackurl}/callback`,
         AccountReference: `254${phone}`,
         TransactionDesc: "Test",
       },
