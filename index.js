@@ -3,8 +3,6 @@ const cors = require("cors");
 const app = express();
 const axios = require("axios");
 const bodyParser = require("body-parser");
-const callbackurl = "fishbay-daraja-sandbox-production.up.railway.app";
-console.log(callbackurl);
 
 require("dotenv").config();
 
@@ -49,6 +47,8 @@ app.get("/stk", (req, res) => {
 });
 
 app.post("/stk", generateToken, async (req, res) => {
+  const callbackurl = process.env.CALLBACK_URL;
+  console.log(callbackurl);
   const phone = req.body.phone.substring(1);
   const amount = req.body.amount;
 
