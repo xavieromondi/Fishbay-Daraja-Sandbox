@@ -47,8 +47,6 @@ app.get("/stk", (req, res) => {
 });
 
 app.post("/stk", generateToken, async (req, res) => {
-  const callbackurl = process.env.CALLBACK_URL;
-  console.log(callbackurl);
   const phone = req.body.phone.substring(1);
   const amount = req.body.amount;
 
@@ -80,7 +78,7 @@ app.post("/stk", generateToken, async (req, res) => {
         PartyA: `254${phone}`,
         PartyB: shortcode,
         PhoneNumber: `254${phone}`,
-        CallBackURL: `${callbackurl}/callback`,
+        CallBackURL: `/callback`,
         AccountReference: `254${phone}`,
         TransactionDesc: "Test",
       },
