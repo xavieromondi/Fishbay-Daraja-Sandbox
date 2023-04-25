@@ -87,6 +87,7 @@ app.post("/stk", generateToken, async (req, res) => {
         PhoneNumber: `254${phone}`,
         CallBackURL: `${callbackurl}`,
         AccountReference: `254${phone}`,
+        TransactionDesc: "Test",
       },
       {
         headers: {
