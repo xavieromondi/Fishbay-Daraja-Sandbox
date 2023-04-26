@@ -11,9 +11,9 @@ app.use(bodyParser.urlencoded({ limit: "10mb", extended: false }));
 app.use(cors());
 
 const generateToken = async (req, res, next) => {
-  const secret = process.env.MPESA_SECRET_KEY;
+  const secret = "MNCXhzWmx7PLnfCf";
   console.log(secret);
-  const consumer = process.env.MPESA_CONSUMER_KEY;
+  const consumer = "aypEEE6iOV9bhimQAAQU7bulbLEH9cbF";
   console.log(consumer);
   const auth = Buffer.from(`${consumer}:${secret}`).toString("base64");
 
@@ -48,7 +48,8 @@ app.get("/stk", (req, res) => {
 });
 
 app.post("/stk", generateToken, async (req, res) => {
-  const callbackurl = process.env.CALLBACK_URL;
+  const callbackurl =
+    "https://fishbay-daraja-sandbox-production.up.railway.app";
   console.log(callbackurl);
   const phone = req.body.phone.substring(1);
   const amount = req.body.amount;
@@ -65,9 +66,10 @@ app.post("/stk", generateToken, async (req, res) => {
     ("0" + date.getMinutes()).slice(-2) +
     ("0" + date.getSeconds()).slice(-2);
 
-  const shortcode = process.env.MPESA_SHORTCODE;
+  const shortcode = 174379;
   console.log(shortcode);
-  const passkey = process.env.MPESA_PASSKEY;
+  const passkey =
+    "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919";
   console.log(passkey);
   const password = new Buffer.from(shortcode + passkey + timestamp).toString(
     "base64"
