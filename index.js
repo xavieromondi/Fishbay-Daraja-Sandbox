@@ -87,7 +87,7 @@ app.post("/stk", generateToken, async (req, res) => {
         PartyA: `254${phone}`,
         PartyB: shortcode,
         PhoneNumber: `254${phone}`,
-        CallBackURL: `${callbackurl}/callnack`,
+        CallBackURL: `${callbackurl}/callback`,
         AccountReference: `254${phone}`,
         TransactionDesc: "Test",
       },
