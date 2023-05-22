@@ -48,8 +48,7 @@ app.get("/stk", (req, res) => {
 });
 
 app.post("/stk", generateToken, async (req, res) => {
-  const callbackurl =
-    "https://fishbay-daraja-sandbox-production.up.railway.app";
+  const callbackurl = "https://fishbay-sandbox.onrender.com";
   console.log(callbackurl);
   const phone = req.body.phone.substring(1);
   const amount = req.body.amount;
