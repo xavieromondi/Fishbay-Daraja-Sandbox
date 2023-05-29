@@ -48,7 +48,7 @@ app.get("/stk", (req, res) => {
 });
 
 app.post("/stk", generateToken, async (req, res) => {
-  const callbackurl = "https://fishbay-sandbox.onrender.com";
+  const callbackurl = "https://samakibay.onrender.com";
   console.log(callbackurl);
   const phone = req.body.phone.substring(1);
   const amount = req.body.amount;
