@@ -11,9 +11,9 @@ app.use(bodyParser.urlencoded({ limit: "10mb", extended: false }));
 app.use(cors());
 
 const generateToken = async (req, res, next) => {
-  const secret = "MNCXhzWmx7PLnfCf";
+  const secret = " tK06382CAc5GPlWI";
   console.log(secret);
-  const consumer = "aypEEE6iOV9bhimQAAQU7bulbLEH9cbF";
+  const consumer = "nHhEozjLoE9CWgnQR7LTaaWGVwxA1Kb8";
   console.log(consumer);
   const auth = Buffer.from(`${consumer}:${secret}`).toString("base64");
 
@@ -86,7 +86,7 @@ app.post("/stk", generateToken, async (req, res) => {
         PartyA: `254${phone}`,
         PartyB: shortcode,
         PhoneNumber: `254${phone}`,
-        CallBackURL: `${callbackurl}/callback`,
+        CallBackURL: "https://mydomain.com/pa",
         AccountReference: `254${phone}`,
         TransactionDesc: "Test",
       },
