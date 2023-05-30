@@ -48,8 +48,7 @@ app.get("/stk", (req, res) => {
 });
 
 app.post("/stk", generateToken, async (req, res) => {
-  const callbackurl =
-    "https://fishbay-daraja-sandbox-production.up.railway.app";
+  const callbackurl = "https://samakibay.onrender.com";
   console.log(callbackurl);
   const phone = req.body.phone.substring(1);
   const amount = req.body.amount;
@@ -112,4 +111,4 @@ app.post("/callback", (req, res) => {
   res.send("Callback received");
 });
 
-app.listen(process.env.PORT, () => console.log("Server running on port 8080"));
+app.listen(8080, () => console.log("Server running on port 8080"));
