@@ -11,8 +11,26 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
-const getAccessToken = () => {
-  return "2EKP5SFQ8ID0ixVuJPz1Ac6se1vg"; // Replace with the provided access token
+const getAccessToken = async () => {
+  const consumerKey = "wcMZ02TzOagGtiYg9oGRpfdR8BXYOFMN";
+  const consumerSecret = "Axvzm9tnBQxYcJ33";
+
+  try {
+    const url =
+      "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
+    const encodedCredentials = Buffer.from(
+      `${consumerKey}:${consumerSecret}`
+    ).toString("base64");
+    console.log(`my credentials ${encodedCredentials}`);
+    const headers = {
+      Authorization: `Basic ${encodedCredentials}`,
+    };
+
+    const response = await axios.get(url, { headers });
+    return response.data.access_token;
+  } catch (error) {
+    throw new Error("Failed to get access token.");
+  }
 };
 
 app.get("/stk", (req, res) => {
@@ -68,7 +86,7 @@ app.post("/stk", async (req, res) => {
       PartyA: `254${phone}`,
       PartyB: shortCode,
       PhoneNumber: `254${phone}`,
-      CallBackURL: "https://mydomain.com/pat",
+      CallBackURL: "https://mydomain.com/path",
       AccountReference: "account",
       TransactionDesc: "test",
     };
