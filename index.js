@@ -68,7 +68,7 @@ app.post("/stk", generateToken, async (req, res) => {
   const shortcode = 174379;
   console.log(shortcode);
   const passkey =
-    "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c91";
+    "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919";
   console.log(passkey);
   const password = new Buffer.from(shortcode + passkey + timestamp).toString(
     "base64"
@@ -111,4 +111,4 @@ app.post("/callback", (req, res) => {
   res.send("Callback received");
 });
 
-app.listen(8080, () => console.log("Server running on port 8080"));
+app.listen(process.env.PORT, () => console.log("Server running on port 8080"));
