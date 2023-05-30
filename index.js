@@ -105,10 +105,4 @@ app.post("/stk", generateToken, async (req, res) => {
   }
 });
 
-//Create a route to handle the callback
-app.post("/callback", (req, res) => {
-  console.log("Received callback:", req.body);
-  res.send("Callback received");
-});
-
 app.listen(process.env.PORT, () => console.log("Server running on port 8080"));
