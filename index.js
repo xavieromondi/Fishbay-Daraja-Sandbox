@@ -5,34 +5,14 @@ const axios = require("axios");
 const bodyParser = require("body-parser");
 
 require("dotenv").config();
+const PORT = process.env.PORT;
 
 app.use(express.json());
-app.use(bodyParser.urlencoded({ limit: "10mb", extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
-const generateToken = async (req, res, next) => {
-  const secret = "MNCXhzWmx7PLnfCf";
-  console.log(secret);
-  const consumer = "aypEEE6iOV9bhimQAAQU7bulbLEH9cbF";
-  console.log(consumer);
-  const auth = Buffer.from(`${consumer}:${secret}`).toString("base64");
-
-  try {
-    const { data } = await axios.get(
-      "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials",
-      {
-        headers: {
-          Authorization: `Basic ${auth}`,
-        },
-      }
-    );
-
-    req.access_token = data.access_token;
-    next();
-  } catch (error) {
-    console.log(error.message);
-    res.status(400).json({ error: error.message });
-  }
+const getAccessToken = () => {
+  return "2EKP5SFQ8ID0ixVuJPz1Ac6se1vg"; // Replace with the provided access token
 };
 
 app.get("/stk", (req, res) => {
@@ -47,16 +27,11 @@ app.get("/stk", (req, res) => {
   );
 });
 
-app.post("/stk", generateToken, async (req, res) => {
-  const callbackurl = "https://samakibay.onrender.com";
-  console.log(callbackurl);
+app.post("/stk", async (req, res) => {
   const phone = req.body.phone.substring(1);
   const amount = req.body.amount;
-  console.log(phone);
-  console.log(amount);
 
   const date = new Date();
-
   const timestamp =
     date.getFullYear() +
     ("0" + (date.getMonth() + 1)).slice(-2) +
@@ -65,50 +40,48 @@ app.post("/stk", generateToken, async (req, res) => {
     ("0" + date.getMinutes()).slice(-2) +
     ("0" + date.getSeconds()).slice(-2);
 
-  const shortcode = 174379;
-  console.log(shortcode);
+  const shortCode = "174379"; // Sandbox: '174379'
   const passkey =
     "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919";
-  console.log(passkey);
-  const password = new Buffer.from(shortcode + passkey + timestamp).toString(
+
+  const stk_password = Buffer.from(shortCode + passkey + timestamp).toString(
     "base64"
   );
 
-  try {
-    const { data } = await axios.post(
-      "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest",
-      {
-        BusinessShortCode: shortcode,
-        Password: password,
-        Timestamp: timestamp,
-        TransactionType: "CustomerPayBillOnline",
-        Amount: amount,
-        PartyA: `254${phone}`,
-        PartyB: shortcode,
-        PhoneNumber: `254${phone}`,
-        CallBackURL: `${callbackurl}/callback`,
-        AccountReference: `254${phone}`,
-        TransactionDesc: "Test",
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${req.access_token}`,
-        },
-      }
-    );
+  // Choose one depending on your development environment
+  const url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"; // Sandbox
+  // const url = 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest'; // Live
 
-    console.log(data);
-    res.status(200).json(data);
+  try {
+    const token = getAccessToken();
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+
+    const requestBody = {
+      BusinessShortCode: shortCode,
+      Password: stk_password,
+      Timestamp: timestamp,
+      TransactionType: "CustomerPayBillOnline",
+      Amount: amount,
+      PartyA: `254${phone}`,
+      PartyB: shortCode,
+      PhoneNumber: `254${phone}`,
+      CallBackURL: "https://mydomain.com/pat",
+      AccountReference: "account",
+      TransactionDesc: "test",
+    };
+
+    const response = await axios.post(url, requestBody, { headers });
+    console.log(response.data); // Log the response data
+    res.status(200).json(response.data);
   } catch (error) {
-    console.log(error.message);
+    console.error(error);
     res.status(400).json({ error: error.message });
   }
 });
 
-//Create a route to handle the callback
-app.post("/callback", (req, res) => {
-  console.log("Received callback:", req.body);
-  res.send("Callback received");
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
-
-app.listen(8080, () => console.log("Server running on port 8080"));
