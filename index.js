@@ -86,7 +86,7 @@ app.post("/stk", generateToken, async (req, res) => {
         PartyA: `254${phone}`,
         PartyB: shortcode,
         PhoneNumber: `254${phone}`,
-        CallBackURL: "https://mydomain.com/pa",
+        CallBackURL: "https://samakibay.onrender.com",
         AccountReference: `254${phone}`,
         TransactionDesc: "Test",
       },
