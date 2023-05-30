@@ -11,9 +11,9 @@ app.use(bodyParser.urlencoded({ limit: "10mb", extended: false }));
 app.use(cors());
 
 const generateToken = async (req, res, next) => {
-  const secret = " tK06382CAc5GPlWI";
+  const secret = "MNCXhzWmx7PLnfCf";
   console.log(secret);
-  const consumer = "nHhEozjLoE9CWgnQR7LTaaWGVwxA1Kb8";
+  const consumer = "aypEEE6iOV9bhimQAAQU7bulbLEH9cbF";
   console.log(consumer);
   const auth = Buffer.from(`${consumer}:${secret}`).toString("base64");
 
@@ -48,7 +48,8 @@ app.get("/stk", (req, res) => {
 });
 
 app.post("/stk", generateToken, async (req, res) => {
-  const callbackurl = "https://samakibay.onrender.com";
+  const callbackurl =
+    "https://fishbay-daraja-sandbox-production.up.railway.app";
   console.log(callbackurl);
   const phone = req.body.phone.substring(1);
   const amount = req.body.amount;
@@ -68,7 +69,7 @@ app.post("/stk", generateToken, async (req, res) => {
   const shortcode = 174379;
   console.log(shortcode);
   const passkey =
-    "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919";
+    "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c91";
   console.log(passkey);
   const password = new Buffer.from(shortcode + passkey + timestamp).toString(
     "base64"
@@ -86,7 +87,7 @@ app.post("/stk", generateToken, async (req, res) => {
         PartyA: `254${phone}`,
         PartyB: shortcode,
         PhoneNumber: `254${phone}`,
-        CallBackURL: "https://samakibay.onrender.com",
+        CallBackURL: `${callbackurl}/callnack`,
         AccountReference: `254${phone}`,
         TransactionDesc: "Test",
       },
@@ -111,4 +112,4 @@ app.post("/callback", (req, res) => {
   res.send("Callback received");
 });
 
-app.listen(8080, () => console.log("Server running on port 8080"));
+app.listen(process.env.PORT, () => console.log("Server running on port 8080"));
