@@ -33,6 +33,18 @@ const getAccessToken = async () => {
   }
 };
 
+// Middleware function to generate access token
+const generateToken = async (req, res, next) => {
+  try {
+    const token = await getAccessToken();
+    req.token = token;
+    next();
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ error: error.message });
+  }
+};
+
 app.get("/stk", (req, res) => {
   res.send(
     `<form action="/stk" method="POST">
@@ -45,7 +57,7 @@ app.get("/stk", (req, res) => {
   );
 });
 
-app.post("/stk", async (req, res) => {
+app.post("/stk", generateToken, async (req, res) => {
   const phone = req.body.phone.substring(1);
   const amount = req.body.amount;
 
@@ -71,7 +83,7 @@ app.post("/stk", async (req, res) => {
   // const url = 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest'; // Live
 
   try {
-    const token = getAccessToken();
+    const token = req.token;
     const headers = {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
