@@ -5,7 +5,9 @@ const axios = require("axios");
 const bodyParser = require("body-parser");
 
 require("dotenv").config();
+
 const PORT = process.env.PORT;
+const callbackurl = "https://samakibay.onrender.com";
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -98,7 +100,7 @@ app.post("/stk", generateToken, async (req, res) => {
       PartyA: `254${phone}`,
       PartyB: shortCode,
       PhoneNumber: `254${phone}`,
-      CallBackURL: "https://mydomain.com/path",
+      CallBackURL: `${callbackurl}/callback`,
       AccountReference: "account",
       TransactionDesc: "test",
     };
@@ -111,7 +113,11 @@ app.post("/stk", generateToken, async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-
+//Create a route to handle the callback
+app.post("/callback", (req, res) => {
+  console.log("Received callback:", req.body);
+  res.send("Callback received");
+});
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
